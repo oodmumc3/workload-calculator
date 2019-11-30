@@ -37,15 +37,16 @@
         </div>
         <div class="col">
           <select v-model="timeType" class="form-control" id="timeType">
-            <option value="seconds">초</option>
             <option value="minutes">분</option>
+            <option value="seconds">초</option>
           </select>
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-10">
           <input v-model="workLoadCnt" type="number" class="form-control" id="workLoadCnt" placeholder="작업 수량">
         </div>
+        <div class="col"> 개 </div>
       </div>
       <div class="row">
         <div class="col">
@@ -60,7 +61,7 @@
     </div>
 
     <div v-show="calculateResult != null" class="alert alert-success" role="alert">
-      1초당 <span style="font-weight: bolder">{{calculateResult}}</span>개를 생산하였습니다.
+      1개당 <span style="font-weight: bolder">{{calculateResult}}</span>초 소요됐습니다.
     </div>
   </div>
 
@@ -70,7 +71,7 @@
           el: '#app',
           data: {
               message: 'Hello Vue!',
-              timeType: 'seconds',
+              timeType: 'minutes',
               workLoadTime: null,
               workLoadCnt: null,
               calculateResult: null
@@ -85,7 +86,7 @@
                   const workLoadTime = this.timeType === 'seconds' ? this.workLoadTime : this.workLoadTime * 60;
                   const workLoadCnt = this.workLoadCnt;
 
-                  this.calculateResult = workLoadCnt / workLoadTime;
+                  this.calculateResult = workLoadTime / workLoadCnt;
               }
           }
       });
