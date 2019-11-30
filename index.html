@@ -1,1 +1,95 @@
-<h1>HELLO GITHUB PAGE</h1>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- Load required Bootstrap and BootstrapVue CSS -->
+  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+  <!-- Load polyfills to support older browsers -->
+  <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+
+  <!-- Load Vue followed by BootstrapVue -->
+  <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+  <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+  </style>
+  <title>작업량 계산기</title>
+</head>
+<body>
+  <div id="app" class="container-fluid">
+    <div class="jumbotron" style="margin-top: 10px">
+      <h1 class="display-6">작업량 계산기</h1>
+<!--      <p class="lead"> 부가설명 </p>-->
+      <hr class="my-4">
+      <div class="row">
+        <div class="col-8">
+          <div class="form-group">
+          <input v-model="workLoadTime" type="number" class="form-control" id="workLoadTime" placeholder="작업 시간">
+          </div>
+        </div>
+        <div class="col">
+          <select v-model="timeType" class="form-control" id="timeType">
+            <option value="seconds">초</option>
+            <option value="minutes">분</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <input v-model="workLoadCnt" type="number" class="form-control" id="workLoadCnt" placeholder="작업 수량">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button @click="calculate"
+                  type="button"
+                  class="btn btn-dark btn-lg btn-block"
+                  style="margin-top: 10px">
+            계산
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-show="calculateResult != null" class="alert alert-success" role="alert">
+      1초당 <span style="font-weight: bolder">{{calculateResult}}</span>개를 생산하였습니다.
+    </div>
+  </div>
+
+<!--  <script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+  <script type="text/javascript">
+      new Vue({
+          el: '#app',
+          data: {
+              message: 'Hello Vue!',
+              timeType: 'seconds',
+              workLoadTime: null,
+              workLoadCnt: null,
+              calculateResult: null
+          },
+          methods: {
+              calculate (e) {
+                if (!this.workLoadTime || !this.workLoadCnt) {
+                    this.calculateResult = null;
+                    return;
+                }
+
+                  const workLoadTime = this.timeType === 'seconds' ? this.workLoadTime : this.workLoadTime * 60;
+                  const workLoadCnt = this.workLoadCnt;
+
+                  this.calculateResult = workLoadCnt / workLoadTime;
+              }
+          }
+      });
+  </script>
+
+</body>
+</html>
